@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrendSepet – Türkiye'nin En Büyük Alışveriş Deneyimi</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FF6B00;
+    --orange-light: #FF8C35;
+    --orange-pale: #FFF3E8;
+    --dark: #1A1A2E;
+    --dark2: #16213E;
+    --mid: #444;
+    --gray: #888;
+    --light: #F5F5F5;
+    --white: #FFFFFF;
+    --green: #00C851;
+    --red: #FF3547;
+    --yellow: #FFD700;
+    --blue: #007BFF;
+    --shadow: 0 4px 20px rgba(0,0,0,0.12);
+    --radius: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:#F8F8F8; color:var(--dark); overflow-x:hidden; }
+
+  /* ── COOKIE BANNER ────────────────────────────────────── */
+  #cookieBanner {
+    position:fixed; bottom:0; left:0; right:0; z-index:9999;
+    background:#1A1A2E; color:#fff; padding:20px 24px;
+    box-shadow:0 -4px 30px rgba(0,0,0,0.4);
+    display:flex; flex-wrap:wrap; gap:12px; align-items:center;
+    animation: slideUp 0.5s ease;
+  }
+  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+  #cookieBanner p { flex:1; min-width:200px; font-size:13px; line-height:1.6; color:#ccc; }
+  #cookieBanner p a { color:var(--orange); text-decoration:underline; cursor:pointer; }
+  #cookieBanner .cb-btns { display:flex; gap:8px; flex-wrap:wrap; }
+  #cookieBanner .cb-accept {
+    background:var(--orange); color:#fff; border:none; padding:10px 22px;
+    border-radius:8px; font-weight:700; cursor:pointer; font-size:14px;
+    box-shadow:0 2px 10px rgba(255,107,0,0.5); transition:transform 0.2s;
+  }
+  #cookieBanner .cb-accept:hover { transform:scale(1.05); }
+  #cookieBanner .cb-settings {
+    background:transparent; color:#666; border:1px solid #444; padding:10px 16px;
+    border-radius:8px; cursor:pointer; font-size:11px; transition:color 0.2s;
+  }
+  #cookieBanner .cb-settings:hover { color:#aaa; }
+  /* DARK PATTERN: Reddet butonu çok küçük, gri, neredeyse görünmez */
+  #cookieBanner .cb-reject {
+    background:transparent; color:#444; border:none; padding:6px 8px;
+    cursor:pointer; font-size:10px; text-decoration:underline;
+    align-self:flex-end;
+  }
+
+  /* ── FLASH SALE BANNER ────────────────────────────────── */
+  #flashBanner {
+    background: linear-gradient(90deg, #FF0050, #FF6B00, #FF0050);
+    background-size:200% 100%;
+    animation: bgMove 2s linear infinite;
+    color:#fff; text-align:center; padding:10px;
+    font-family:'Nunito',sans-serif; font-weight:800; font-size:14px;
+    letter-spacing:0.5px;
+  }
+  @keyframes bgMove { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+  #flashBanner span.timer {
+    background:rgba(0,0,0,0.3); padding:2px 10px; border-radius:20px;
+    font-size:16px; margin-left:10px; letter-spacing:2px;
+  }
+
+  /* ── HEADER ───────────────────────────────────────────── */
+  header {
+    background:#fff; box-shadow:0 2px 12px rgba(0,0,0,0.08);
+    position:sticky; top:0; z-index:100;
+  }
+  .header-top {
+    background:var(--dark2); color:#fff; padding:6px 20px;
+    display:flex; justify-content:flex-end; gap:16px; font-size:12px;
+  }
+  .header-top a { color:#aaa; text-decoration:none; cursor:pointer; }
+  .header-main {
+    display:flex; align-items:center; gap:16px; padding:12px 20px;
+    max-width:1280px; margin:0 auto;
+  }
+  .logo {
+    font-family:'Nunito',sans-serif; font-size:26px; font-weight:900;
+    color:var(--orange); text-decoration:none; white-space:nowrap;
+  }
+  .logo span { color:var(--dark); }
+  .search-bar {
+    flex:1; display:flex; border:2px solid var(--orange);
+    border-radius:10px; overflow:hidden; max-width:600px;
+  }
+  .search-bar input {
+    flex:1; padding:10px 16px; border:none; outline:none;
+    font-size:14px; font-family:'Inter',sans-serif;
+  }
+  .search-bar select {
+    border:none; border-left:1px solid #eee; padding:0 8px;
+    background:#f9f9f9; font-size:12px; outline:none; color:var(--gray);
+    cursor:pointer;
+  }
+  .search-bar button {
+    background:var(--orange); color:#fff; border:none; padding:0 20px;
+    cursor:pointer; font-size:18px; transition:background 0.2s;
+  }
+  .search-bar button:hover { background:var(--orange-light); }
+  .header-actions { display:flex; gap:12px; align-items:center; }
+  .icon-btn {
+    display:flex; flex-direction:column; align-items:center;
+    background:none; border:none; cursor:pointer; font-size:11px;
+    color:var(--mid); gap:2px; padding:4px 8px; border-radius:8px;
+    transition:background 0.2s; position:relative;
+  }
+  .icon-btn:hover { background:var(--light); }
+  .icon-btn .ico { font-size:22px; }
+  .badge {
+    position:absolute; top:0; right:0;
+    background:var(--red); color:#fff; border-radius:50%;
+    width:18px; height:18px; font-size:10px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ── NAV ──────────────────────────────────────────────── */
+  nav {
+    background:var(--orange); overflow-x:auto;
+  }
+  nav ul {
+    list-style:none; display:flex; max-width:1280px; margin:0 auto; padding:0 20px;
+  }
+  nav ul li a {
+    display:block; padding:10px 16px; color:#fff; text-decoration:none;
+    font-size:13px; font-weight:600; white-space:nowrap; transition:background 0.2s;
+  }
+  nav ul li a:hover { background:rgba(0,0,0,0.15); }
+
+  /* ── HERO ─────────────────────────────────────────────── */
+  .hero {
+    background: linear-gradient(135deg, var(--dark2) 0%, #0F3460 100%);
+    color:#fff; padding:40px 20px;
+    display:flex; align-items:center; justify-content:center; gap:40px;
+    flex-wrap:wrap; text-align:center;
+  }
+  .hero-text h1 { font-family:'Nunito',sans-serif; font-size:36px; font-weight:900; line-height:1.2; }
+  .hero-text h1 span { color:var(--orange); }
+  .hero-text p { margin-top:10px; color:#aaa; font-size:15px; }
+  .hero-cta {
+    background:var(--orange); color:#fff; border:none; padding:14px 32px;
+    border-radius:10px; font-size:16px; font-weight:700; cursor:pointer;
+    margin-top:20px; transition:transform 0.2s, box-shadow 0.2s;
+    box-shadow:0 4px 20px rgba(255,107,0,0.4);
+  }
+  .hero-cta:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(255,107,0,0.5); }
+
+  /* ── URGENCY BAR ──────────────────────────────────────── */
+  .urgency-bar {
+    background:#fff3cd; border:1px solid #ffc107; border-radius:10px;
+    padding:12px 20px; margin:20px auto; max-width:1280px;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .urgency-bar .pulse { 
+    width:10px; height:10px; border-radius:50%; background:var(--red);
+    animation:pulse 1s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+  .urgency-bar span { font-size:13px; font-weight:600; color:#856404; }
+  .viewer-count { 
+    background:var(--red); color:#fff; padding:2px 10px;
+    border-radius:20px; font-size:12px; font-weight:700;
+    animation:countFlash 3s infinite;
+  }
+  @keyframes countFlash { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+  /* ── MAIN LAYOUT ──────────────────────────────────────── */
+  .main-layout {
+    max-width:1280px; margin:0 auto; padding:20px;
+    display:grid; grid-template-columns:220px 1fr; gap:20px;
+  }
+
+  /* ── SIDEBAR ──────────────────────────────────────────── */
+  .sidebar { display:flex; flex-direction:column; gap:16px; }
+  .sidebar-box {
+    background:#fff; border-radius:var(--radius); padding:16px;
+    box-shadow:var(--shadow);
+  }
+  .sidebar-box h3 {
+    font-family:'Nunito',sans-serif; font-size:14px; font-weight:800;
+    color:var(--dark); margin-bottom:12px; padding-bottom:8px;
+    border-bottom:2px solid var(--orange-pale);
+  }
+  .sidebar-box ul { list-style:none; }
+  .sidebar-box ul li a {
+    display:block; padding:6px 0; font-size:13px; color:var(--mid);
+    text-decoration:none; transition:color 0.2s; cursor:pointer;
+  }
+  .sidebar-box ul li a:hover { color:var(--orange); }
+  /* DARK PATTERN: Bazı kategoriler yanlış sayfaya götürür — hepsi aynı sayfada kalır ama "Elektronik" tıklanırken "Moda" gösterir */
+  .filter-row { display:flex; flex-direction:column; gap:8px; margin-bottom:8px; }
+  .filter-row label { display:flex; gap:8px; font-size:13px; cursor:pointer; align-items:center; }
+  .filter-row input[type=checkbox] { accent-color:var(--orange); }
+  .price-range { width:100%; accent-color:var(--orange); }
+  .price-labels { display:flex; justify-content:space-between; font-size:12px; color:var(--gray); margin-top:4px; }
+
+  /* ── PRODUCTS ─────────────────────────────────────────── */
+  .products-section { display:flex; flex-direction:column; gap:20px; }
+  .section-title {
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:8px;
+  }
+  .section-title h2 {
+    font-family:'Nunito',sans-serif; font-size:20px; font-weight:800;
+  }
+  .section-title h2 span { color:var(--orange); }
+  .sort-bar { display:flex; gap:8px; align-items:center; }
+  .sort-bar select {
+    padding:6px 12px; border:1px solid #ddd; border-radius:8px;
+    font-size:13px; outline:none; cursor:pointer;
+  }
+  .products-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+    gap:16px;
+  }
+
+  /* ── PRODUCT CARD ─────────────────────────────────────── */
+  .product-card {
+    background:#fff; border-radius:var(--radius); overflow:hidden;
+    box-shadow:var(--shadow); transition:transform 0.25s, box-shadow 0.25s;
+    cursor:pointer; position:relative;
+  }
+  .product-card:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.15); }
+  .card-img { 
+    width:100%; aspect-ratio:1; object-fit:cover; display:flex;
+    align-items:center; justify-content:center; font-size:60px;
+    background:linear-gradient(135deg, #f8f8f8, #efefef);
+  }
+  .card-body { padding:12px; }
+  .card-brand { font-size:10px; color:var(--gray); text-transform:uppercase; letter-spacing:1px; }
+  .card-name { font-size:13px; font-weight:600; margin:4px 0; line-height:1.4; }
+  .card-rating { display:flex; gap:2px; font-size:12px; color:var(--yellow); margin-bottom:6px; }
+  .card-rating span { color:var(--gray); font-size:11px; margin-left:4px; }
+  .card-price-block { display:flex; flex-direction:column; gap:2px; }
+  .card-old-price { font-size:11px; color:var(--gray); text-decoration:line-through; }
+  /* DARK PATTERN: Paket fiyatı göster, tekil fiyat gizle */
+  .card-price { font-size:18px; font-weight:800; color:var(--orange); font-family:'Nunito',sans-serif; }
+  .card-price-note { font-size:10px; color:var(--gray); }
+  .card-discount {
+    position:absolute; top:10px; left:10px;
+    background:var(--red); color:#fff; padding:3px 8px;
+    border-radius:20px; font-size:11px; font-weight:700;
+  }
+  .card-fav {
+    position:absolute; top:8px; right:8px;
+    background:#fff; border:none; border-radius:50%; width:30px; height:30px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    box-shadow:0 2px 8px rgba(0,0,0,0.15); font-size:16px; transition:transform 0.2s;
+  }
+  .card-fav:hover { transform:scale(1.2); }
+  .card-fav.active { color:var(--red); }
+  .card-stock-warn {
+    background:#fff3cd; border-radius:6px; padding:4px 8px;
+    font-size:10px; color:#856404; font-weight:600; margin-top:6px;
+  }
+  /* DARK PATTERN: Sahte "kaçta kaç kişi bakıyor" */
+  .viewer-badge {
+    background:rgba(255,53,71,0.1); color:var(--red);
+    border-radius:6px; padding:3px 8px; font-size:10px; font-weight:600;
+    margin-top:4px;
+  }
+  .card-actions { padding:0 12px 12px; display:flex; gap:8px; }
+  .btn-cart {
+    flex:1; background:var(--orange); color:#fff; border:none;
+    padding:9px 0; border-radius:8px; font-size:13px; font-weight:700;
+    cursor:pointer; transition:background 0.2s;
+  }
+  .btn-cart:hover { background:var(--orange-light); }
+  .btn-detail {
+    background:var(--light); color:var(--mid); border:none;
+    padding:9px 12px; border-radius:8px; font-size:13px; cursor:pointer;
+    transition:background 0.2s;
+  }
+  .btn-detail:hover { background:#e8e8e8; }
+
+  /* ── CART SIDEBAR ─────────────────────────────────────── */
+  #cartOverlay {
+    position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500;
+    display:none; animation:fadeIn 0.3s;
+  }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  #cartPanel {
+    position:fixed; top:0; right:0; width:380px; max-width:95vw;
+    height:100vh; background:#fff; z-index:501; box-shadow:-4px 0 30px rgba(0,0,0,0.2);
+    display:flex; flex-direction:column; transform:translateX(100%);
+    transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  #cartPanel.open { transform:translateX(0); }
+  .cart-header {
+    background:var(--dark2); color:#fff; padding:16px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .cart-header h3 { font-family:'Nunito',sans-serif; font-size:18px; }
+  .cart-close { background:none; border:none; color:#fff; font-size:22px; cursor:pointer; }
+  .cart-items { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:12px; }
+  .cart-item {
+    display:flex; gap:12px; align-items:center; background:var(--light);
+    border-radius:10px; padding:12px;
+  }
+  .cart-item-emoji { font-size:36px; }
+  .cart-item-info { flex:1; }
+  .cart-item-name { font-size:13px; font-weight:600; }
+  .cart-item-price { font-size:15px; font-weight:800; color:var(--orange); font-family:'Nunito',sans-serif; }
+  /* DARK PATTERN: Gizli ücretler sadece son adımda gösterilir */
+  .cart-item-note { font-size:11px; color:var(--gray); }
+  .cart-item-remove { background:none; border:none; color:var(--red); font-size:18px; cursor:pointer; }
+  .cart-footer { padding:16px; border-top:2px solid var(--light); }
+  .cart-subtotal-row { display:flex; justify-content:space-between; font-size:13px; color:var(--mid); margin-bottom:6px; }
+  .cart-subtotal-row.total { font-size:16px; font-weight:800; color:var(--dark); border-top:1px solid #eee; padding-top:8px; margin-top:4px; }
+  .cart-checkout-btn {
+    width:100%; background:var(--orange); color:#fff; border:none;
+    padding:14px; border-radius:10px; font-size:16px; font-weight:800;
+    cursor:pointer; margin-top:12px; font-family:'Nunito',sans-serif;
+    transition:transform 0.2s, box-shadow 0.2s;
+    box-shadow:0 4px 16px rgba(255,107,0,0.4);
+  }
+  .cart-checkout-btn:hover { transform:translateY(-2px); }
+
+  /* ── CHECKOUT MODAL ───────────────────────────────────── */
+  #checkoutModal {
+    position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:600;
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  #checkoutModal.open { display:flex; }
+  .checkout-box {
+    background:#fff; border-radius:16px; width:100%; max-width:520px;
+    max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  }
+  .checkout-step { padding:24px; }
+  .checkout-step h3 {
+    font-family:'Nunito',sans-serif; font-size:20px; font-weight:800;
+    margin-bottom:20px; display:flex; align-items:center; gap:10px;
+  }
+  .step-indicator {
+    display:flex; gap:0; margin-bottom:24px;
+  }
+  .step-dot {
+    flex:1; height:4px; background:#eee; position:relative;
+    transition:background 0.3s;
+  }
+  .step-dot.active { background:var(--orange); }
+  .step-dot.done { background:var(--green); }
+  .form-group { margin-bottom:14px; }
+  .form-group label { display:block; font-size:12px; font-weight:600; color:var(--mid); margin-bottom:4px; }
+  .form-group input, .form-group select {
+    width:100%; padding:10px 14px; border:1.5px solid #ddd;
+    border-radius:8px; font-size:14px; outline:none; transition:border-color 0.2s;
+    font-family:'Inter',sans-serif;
+  }
+  .form-group input:focus, .form-group select:focus { border-color:var(--orange); }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+  /* DARK PATTERN: Varsayılan işaretli ekstralar */
+  .extras-box {
+    background:#FFF8F0; border:2px solid var(--orange-light); border-radius:10px;
+    padding:16px; margin-bottom:16px;
+  }
+  .extras-box h4 { font-size:13px; font-weight:700; color:var(--orange); margin-bottom:12px; }
+  .extra-item {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 0; border-bottom:1px solid #f0e0d0;
+  }
+  .extra-item:last-child { border-bottom:none; }
+  .extra-item label { display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer; }
+  .extra-item label input { accent-color:var(--orange); width:16px; height:16px; }
+  .extra-price { font-size:13px; font-weight:700; color:var(--orange); }
+
+  /* DARK PATTERN: Gizli hizmet bedeli son adımda */
+  .hidden-fee-box {
+    background:#fff3cd; border:1px solid #ffc107; border-radius:8px;
+    padding:12px 16px; margin-bottom:16px; font-size:12px; color:#856404;
+  }
+  .hidden-fee-box strong { display:block; font-size:13px; margin-bottom:4px; }
+
+  .checkout-total-box {
+    background:var(--light); border-radius:10px; padding:16px; margin-bottom:16px;
+  }
+  .checkout-total-row { display:flex; justify-content:space-between; font-size:13px; padding:4px 0; color:var(--mid); }
+  .checkout-total-row.grand { font-size:18px; font-weight:800; color:var(--dark); border-top:2px solid #ddd; padding-top:10px; margin-top:6px; }
+  .checkout-total-row.added { color:var(--red); }
+
+  .checkout-next-btn {
+    width:100%; background:var(--orange); color:#fff; border:none;
+    padding:14px; border-radius:10px; font-size:16px; font-weight:800;
+    cursor:pointer; font-family:'Nunito',sans-serif;
+    box-shadow:0 4px 16px rgba(255,107,0,0.4); transition:transform 0.2s;
+  }
+  .checkout-next-btn:hover { transform:translateY(-1px); }
+  .checkout-back-btn {
+    background:none; border:none; color:var(--gray); cursor:pointer;
+    font-size:13px; margin-top:10px; text-decoration:underline; width:100%;
+  }
+  .success-box { text-align:center; padding:40px 24px; }
+  .success-box .big-check { font-size:80px; }
+  .success-box h3 { font-family:'Nunito',sans-serif; font-size:28px; color:var(--green); margin-top:16px; }
+  .success-box p { color:var(--gray); margin-top:8px; font-size:14px; }
+
+  /* ── PRODUCT DETAIL MODAL ─────────────────────────────── */
+  #detailModal {
+    position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:600;
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  #detailModal.open { display:flex; }
+  .detail-box {
+    background:#fff; border-radius:16px; width:100%; max-width:700px;
+    max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  }
+  .detail-header {
+    background:var(--dark2); color:#fff; padding:16px 20px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-radius:16px 16px 0 0;
+  }
+  .detail-body { padding:24px; display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media(max-width:560px) { .detail-body { grid-template-columns:1fr; } }
+  .detail-img { font-size:120px; text-align:center; background:var(--light); border-radius:12px; padding:24px; }
+  .detail-info h2 { font-family:'Nunito',sans-serif; font-size:20px; margin-bottom:8px; }
+  .detail-info .detail-brand { font-size:11px; color:var(--gray); text-transform:uppercase; letter-spacing:1px; }
+  .detail-info .detail-rating { display:flex; gap:2px; font-size:14px; color:var(--yellow); margin:8px 0; }
+  .detail-info .detail-price { font-family:'Nunito',sans-serif; font-size:28px; font-weight:900; color:var(--orange); }
+  .detail-info .detail-price-note { font-size:11px; color:var(--gray); margin-top:2px; }
+  .detail-info .detail-old { font-size:14px; color:var(--gray); text-decoration:line-through; }
+  .detail-info .detail-discount { display:inline-block; background:var(--red); color:#fff; padding:2px 8px; border-radius:20px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .detail-desc { font-size:13px; color:var(--mid); line-height:1.7; margin:12px 0; }
+  .detail-specs { font-size:12px; color:var(--gray); }
+  .detail-specs span { display:block; padding:3px 0; border-bottom:1px solid #f0f0f0; }
+  /* DARK PATTERN: Flash sale sayacı detay sayfasında da var */
+  .detail-countdown {
+    background:#FFF0F0; border:1px solid var(--red); border-radius:8px;
+    padding:10px 14px; display:flex; align-items:center; gap:10px;
+    margin:12px 0; font-size:13px; font-weight:600; color:var(--red);
+  }
+  .detail-countdown .dc-timer { font-size:18px; font-weight:800; letter-spacing:2px; }
+  .detail-add-btn {
+    width:100%; background:var(--orange); color:#fff; border:none;
+    padding:12px; border-radius:10px; font-size:15px; font-weight:700;
+    cursor:pointer; margin-top:12px; font-family:'Nunito',sans-serif;
+  }
+  .detail-fav-btn {
+    width:100%; background:var(--light); color:var(--mid); border:1px solid #ddd;
+    padding:10px; border-radius:10px; font-size:14px; font-weight:600;
+    cursor:pointer; margin-top:8px;
+  }
+
+  /* ── OBSERVER PANEL ───────────────────────────────────── */
+  #observerPanel {
+    position:fixed; bottom:20px; left:20px; z-index:800;
+    background:#1A1A2E; color:#fff; border-radius:16px;
+    width:340px; box-shadow:0 8px 40px rgba(0,0,0,0.5);
+    display:none; overflow:hidden;
+    border:2px solid var(--orange);
+  }
+  #observerPanel.visible { display:block; }
+  .op-header {
+    background:var(--orange); padding:10px 16px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .op-header h4 { font-family:'Nunito',sans-serif; font-size:14px; font-weight:800; }
+  .op-header span { font-size:11px; opacity:0.8; }
+  .op-body { padding:14px; }
+  .op-task-selector { margin-bottom:12px; }
+  .op-task-selector label { font-size:11px; color:#aaa; display:block; margin-bottom:4px; }
+  .op-task-selector select {
+    width:100%; background:#0F3460; color:#fff; border:1px solid #444;
+    border-radius:8px; padding:8px 10px; font-size:12px; outline:none;
+  }
+  .op-participant { margin-bottom:12px; }
+  .op-participant label { font-size:11px; color:#aaa; display:block; margin-bottom:4px; }
+  .op-participant select {
+    width:100%; background:#0F3460; color:#fff; border:1px solid #444;
+    border-radius:8px; padding:8px 10px; font-size:12px; outline:none;
+  }
+  .op-notes-label { font-size:11px; color:#aaa; display:block; margin-bottom:4px; }
+  .op-notes {
+    width:100%; background:#0F3460; color:#fff; border:1px solid #444;
+    border-radius:8px; padding:8px 10px; font-size:12px; resize:vertical;
+    min-height:70px; outline:none; font-family:'Inter',sans-serif;
+  }
+  .op-actions { display:flex; gap:8px; margin-top:10px; }
+  .op-save-btn {
+    flex:1; background:var(--orange); color:#fff; border:none; padding:8px;
+    border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;
+  }
+  .op-saved { font-size:11px; color:var(--green); margin-top:6px; display:none; }
+  .op-log { margin-top:10px; max-height:80px; overflow-y:auto; }
+  .op-log-entry { font-size:10px; color:#888; padding:2px 0; border-bottom:1px solid #333; }
+  .op-task-display {
+    background:#0F3460; border-radius:8px; padding:10px;
+    margin-bottom:12px; border-left:3px solid var(--orange);
+  }
+  .op-task-display p { font-size:12px; color:#ccc; line-height:1.5; }
+  .op-task-display strong { color:var(--orange); font-size:11px; text-transform:uppercase; letter-spacing:1px; }
+  .op-shortcut { font-size:10px; color:#555; text-align:center; margin-top:8px; }
+
+  /* ── TOAST ────────────────────────────────────────────── */
+  #toast {
+    position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
+    background:var(--dark); color:#fff; padding:10px 20px; border-radius:30px;
+    font-size:13px; z-index:700; opacity:0; pointer-events:none;
+    transition:opacity 0.3s; white-space:nowrap;
+  }
+  #toast.show { opacity:1; }
+
+  /* ── FOOTER ───────────────────────────────────────────── */
+  footer {
+    background:var(--dark2); color:#aaa; padding:40px 20px; margin-top:40px;
+  }
+  .footer-grid {
+    max-width:1280px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+    gap:24px; margin-bottom:24px;
+  }
+  .footer-col h4 { font-family:'Nunito',sans-serif; color:#fff; font-size:14px; margin-bottom:12px; }
+  .footer-col ul { list-style:none; }
+  .footer-col ul li { padding:4px 0; font-size:12px; cursor:pointer; }
+  .footer-col ul li:hover { color:#fff; }
+  .footer-bottom { text-align:center; font-size:11px; color:#555; border-top:1px solid #333; padding-top:16px; }
+
+  /* ── RESPONSIVE ───────────────────────────────────────── */
+  @media(max-width:768px) {
+    .main-layout { grid-template-columns:1fr; }
+    .sidebar { display:none; }
+    .header-main { flex-wrap:wrap; }
+    .search-bar { order:3; width:100%; max-width:100%; }
+    .detail-body { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── ÇEREZ BANNER (DARK PATTERN) ─────────────────────── -->
+<div id="cookieBanner">
+  <p>
+    TrendSepet olarak sizi daha iyi tanımak, kişiselleştirilmiş içerik sunmak ve
+    reklam ortaklarımızla veri paylaşmak için çerezler kullanıyoruz.
+    <a onclick="showCookieDetail()">Gizlilik Politikası</a>'nı okuyun.
+  </p>
+  <div class="cb-btns">
+    <button class="cb-accept" onclick="acceptCookies()">🍪 Tümünü Kabul Et</button>
+    <button class="cb-settings" onclick="showCookieDetail()">Ayarları Yönet</button>
+  </div>
+  <!-- DARK PATTERN: Reddet butonu çok küçük, gizli -->
+  <button class="cb-reject" onclick="rejectCookies()">reddet</button>
+</div>
+
+<!-- ─── FLASH SALE BANNER ─────────────────────────────────── -->
+<div id="flashBanner">
+  ⚡ FLASH SALE — Tüm Spor Ürünlerinde %40'a Varan İndirim!
+  <span class="timer" id="timerDisplay">00:14:33</span>
+  — Kaçırma!
+</div>
+
+<!-- ─── HEADER ─────────────────────────────────────────────── -->
+<header>
+  <div class="header-top">
+    <a>Satıcı Ol</a>
+    <a>Kurumsal</a>
+    <a>Yardım</a>
+    <a>Giriş Yap / Kayıt Ol</a>
+  </div>
+  <div class="header-main">
+    <a class="logo">Trend<span>Sepet</span></a>
+    <div class="search-bar">
+      <select onchange="handleCategorySearch(this)">
+        <option>Tüm Kategoriler</option>
+        <option>Ayakkabı</option>
+        <option>Elektronik</option>
+        <option>Giyim</option>
+        <option>Spor</option>
+        <option>Ev & Yaşam</option>
+      </select>
+      <input type="text" id="searchInput" placeholder="Ürün, marka veya kategori ara..." onkeydown="if(event.key==='Enter')doSearch()">
+      <button onclick="doSearch()">🔍</button>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="scrollToTop()">
+        <span class="ico">❤️</span>
+        <span>Favoriler</span>
+        <span class="badge" id="favBadge" style="display:none">0</span>
+      </button>
+      <button class="icon-btn" onclick="openCart()">
+        <span class="ico">🛒</span>
+        <span>Sepet</span>
+        <span class="badge" id="cartBadge" style="display:none">0</span>
+      </button>
+    </div>
+  </div>
+  <!-- NAV -->
+  <nav>
+    <ul>
+      <li><a onclick="filterCategory('Tümü')">🏠 Anasayfa</a></li>
+      <!-- DARK PATTERN: "Elektronik" tıklanınca "Spor" gösterir -->
+      <li><a onclick="filterCategory('Elektronik_TRICK')">📱 Elektronik</a></li>
+      <li><a onclick="filterCategory('Giyim')">👗 Giyim</a></li>
+      <li><a onclick="filterCategory('Ayakkabı')">👟 Ayakkabı</a></li>
+      <li><a onclick="filterCategory('Spor')">⚽ Spor</a></li>
+      <li><a onclick="filterCategory('Ev')">🏠 Ev & Yaşam</a></li>
+      <li><a onclick="filterCategory('Kozmetik')">💄 Kozmetik</a></li>
+      <li><a style="background:rgba(255,255,0,0.2)" onclick="filterCategory('Flash')">🔥 Fırsatlar</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ─── HERO ───────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-text">
+    <h1>Türkiye'nin En Büyük<br><span>Alışveriş Merkezi</span></h1>
+    <p>Milyonlarca ürün, hızlı teslimat, güvenli ödeme</p>
+    <button class="hero-cta" onclick="filterCategory('Tümü')">Alışverişe Başla →</button>
+  </div>
+</div>
+
+<!-- ─── URGENCY BAR ─────────────────────────────────────────── -->
+<div class="urgency-bar">
+  <div class="pulse"></div>
+  <span>Şu an <span class="viewer-count" id="viewerCount">47</span> kişi bu sayfayı inceliyor</span>
+  <span style="color:#856404">•</span>
+  <span>Son 1 saatte <strong>312</strong> ürün satıldı</span>
+  <span style="color:#856404">•</span>
+  <span>⏰ Kargo kesim saati: <strong id="kargoCutoff">17:45</strong></span>
+</div>
+
+<!-- ─── MAIN ───────────────────────────────────────────────── -->
+<div class="main-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-box">
+      <h3>🗂️ Kategoriler</h3>
+      <ul>
+        <li><a onclick="filterCategory('Tümü')">Tüm Ürünler</a></li>
+        <!-- DARK PATTERN: Spor tıklanınca Giyim gösterir -->
+        <li><a onclick="filterCategory('Spor_TRICK2')">⚽ Spor Ekipmanları</a></li>
+        <li><a onclick="filterCategory('Ayakkabı')">👟 Ayakkabı</a></li>
+        <li><a onclick="filterCategory('Giyim')">👗 Giyim</a></li>
+        <li><a onclick="filterCategory('Elektronik')">📱 Elektronik</a></li>
+        <li><a onclick="filterCategory('Ev')">🏠 Ev & Yaşam</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-box">
+      <h3>💰 Fiyat Aralığı</h3>
+      <input type="range" class="price-range" min="0" max="5000" value="5000" oninput="updatePriceFilter(this.value)">
+      <div class="price-labels"><span>₺0</span><span id="priceMax">₺5.000</span></div>
+    </div>
+    <div class="sidebar-box">
+      <h3>⭐ Değerlendirme</h3>
+      <div class="filter-row">
+        <label><input type="checkbox" checked> ⭐⭐⭐⭐⭐ (5)</label>
+        <label><input type="checkbox" checked> ⭐⭐⭐⭐ ve üzeri</label>
+        <label><input type="checkbox"> ⭐⭐⭐ ve üzeri</label>
+      </div>
+    </div>
+    <div class="sidebar-box">
+      <h3>🚚 Teslimat</h3>
+      <div class="filter-row">
+        <label><input type="checkbox" checked> Aynı Gün Teslimat</label>
+        <label><input type="checkbox" checked> Ücretsiz Kargo</label>
+        <label><input type="checkbox"> Premium Üye</label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- PRODUCTS -->
+  <div class="products-section">
+    <div class="section-title">
+      <h2>Öne Çıkan <span>Ürünler</span></h2>
+      <div class="sort-bar">
+        <select onchange="sortProducts(this.value)">
+          <option value="default">Önerilen Sıralama</option>
+          <option value="priceasc">Fiyat: Düşükten Yükseğe</option>
+          <option value="pricedesc">Fiyat: Yüksekten Düşüğe</option>
+          <option value="rating">En Çok Değerlendirilen</option>
+          <option value="newest">En Yeniler</option>
+        </select>
+      </div>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</div>
+
+<!-- ─── CART PANEL ─────────────────────────────────────────── -->
+<div id="cartOverlay" onclick="closeCart()"></div>
+<div id="cartPanel">
+  <div class="cart-header">
+    <h3>🛒 Sepetim</h3>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div style="text-align:center;padding:40px;color:#aaa;">
+      <div style="font-size:48px">🛒</div>
+      <p style="margin-top:10px;font-size:14px">Sepetiniz boş</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-subtotal-row"><span>Ara Toplam</span><span id="cartSubtotal">₺0</span></div>
+    <div class="cart-subtotal-row"><span>Kargo</span><span style="color:var(--green)">Ücretsiz</span></div>
+    <div class="cart-subtotal-row total"><span>Toplam</span><span id="cartTotal">₺0</span></div>
+    <button class="cart-checkout-btn" onclick="openCheckout()">Ödemeye Geç →</button>
+  </div>
+</div>
+
+<!-- ─── CHECKOUT MODAL ─────────────────────────────────────── -->
+<div id="checkoutModal">
+  <div class="checkout-box" id="checkoutBox"></div>
+</div>
+
+<!-- ─── PRODUCT DETAIL MODAL ──────────────────────────────── -->
+<div id="detailModal">
+  <div class="detail-box" id="detailBox"></div>
+</div>
+
+<!-- ─── OBSERVER PANEL ─────────────────────────────────────── -->
+<div id="observerPanel">
+  <div class="op-header">
+    <h4>🔬 Gözlemci Paneli</h4>
+    <span>HCI Test Modu</span>
+  </div>
+  <div class="op-body">
+    <div class="op-participant">
+      <label>Katılımcı</label>
+      <select id="participantSelect">
+        <option>Katılımcı 1</option>
+        <option>Katılımcı 2</option>
+        <option>Katılımcı 3</option>
+        <option>Katılımcı 4</option>
+        <option>Katılımcı 5</option>
+      </select>
+    </div>
+    <div class="op-task-selector">
+      <label>Aktif Görev</label>
+      <select id="taskSelect" onchange="updateTaskDisplay()">
+        <option value="0">Görev 1: Beyaz spor ayakkabı ara ve sepete ekle</option>
+        <option value="1">Görev 2: Sepetteki ürünlerin toplam fiyatını bul</option>
+        <option value="2">Görev 3: Ödeme işlemini tamamla (ilerleme butonları)</option>
+        <option value="3">Görev 4: Çerez ayarlarını reddet / sadece zorunlu seç</option>
+        <option value="4">Görev 5: Bir ürünü favorilere ekle</option>
+      </select>
+    </div>
+    <div class="op-task-display">
+      <strong>Aktif Görev:</strong>
+      <p id="taskDisplayText">Beyaz spor ayakkabı arayın ve sepete ekleyin.</p>
+    </div>
+    <label class="op-notes-label">Gözlemci Notları</label>
+    <textarea class="op-notes" id="observerNotes" placeholder="Kullanıcı davranışlarını, zorlandığı noktaları, yorumları buraya not edin..."></textarea>
+    <div class="op-actions">
+      <button class="op-save-btn" onclick="saveObserverNote()">💾 Notu Kaydet</button>
+    </div>
+    <div class="op-saved" id="opSaved">✅ Kaydedildi!</div>
+    <div class="op-log" id="opLog"></div>
+    <div class="op-shortcut">Ctrl+Shift+T ile aç/kapat</div>
+  </div>
+</div>
+
+<!-- ─── TOAST ──────────────────────────────────────────────── -->
+<div id="toast"></div>
+
+<!-- ─── FOOTER ─────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>TrendSepet</h4>
+      <ul>
+        <li>Hakkımızda</li><li>Kariyer</li><li>Basın</li><li>Sürdürülebilirlik</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Müşteri Hizmetleri</h4>
+      <ul>
+        <li>Yardım Merkezi</li><li>İade & Değişim</li><li>Kargo Takibi</li><li>Güvenli Alışveriş</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kurumsal</h4>
+      <ul>
+        <li>Satıcı Ol</li><li>Reklam Ver</li><li>API Entegrasyonu</li><li>İş Ortaklığı</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ödeme Yöntemleri</h4>
+      <ul>
+        <li>💳 Kredi Kartı</li><li>🏦 Banka Havalesi</li><li>📱 Mobil Ödeme</li><li>🔐 3D Secure</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 TrendSepet A.Ş. | KVKK Aydınlatma Metni | Kullanım Koşulları | Çerez Politikası
+  </div>
+</footer>
+
+<script>
+// ──────────────────────────────────────────────────────────────────────────────
+// DATA — ÜRÜNLER (DARK PATTERN: Aynı ürün farklı isimlerle)
+// ──────────────────────────────────────────────────────────────────────────────
+const products = [
+  // AYAKKABI
+  { id:1, name:"AeroStep Pro X2 Koşu Ayakkabısı", altName:"SportRun Pro Series 2 Beyaz", emoji:"👟", brand:"NikeStar", category:"Ayakkabı", price:1299, oldPrice:1999, discount:35, rating:4.7, reviews:284, stock:3, viewers:23, color:"Beyaz/Mavi", packageNote:"2'li Paket Fiyatı" },
+  { id:2, name:"UrbanStep Classic Sneaker Beyaz", altName:"Casual White Runner V3", emoji:"👟", brand:"AdiStep", category:"Ayakkabı", price:849, oldPrice:1200, discount:29, rating:4.5, reviews:156, stock:8, viewers:14, color:"Beyaz", packageNote:null },
+  { id:3, name:"FlexRun Trail 500 Spor Ayakkabı", altName:"FlexRun Outdoor 500", emoji:"👟", brand:"PumaStar", category:"Ayakkabı", price:1650, oldPrice:2100, discount:21, rating:4.8, reviews:412, stock:2, viewers:31, color:"Siyah/Turuncu", packageNote:null },
+  { id:4, name:"ComfortWalk Günlük Ayakkabı", altName:"ComfortWalk Daily Edition", emoji:"🥿", brand:"EcoStep", category:"Ayakkabı", price:499, oldPrice:750, discount:33, rating:4.2, reviews:89, stock:15, viewers:7, color:"Kahverengi", packageNote:null },
+
+  // ELEKTRONİK
+  { id:5, name:"SmartWatch Ultra Pro 7 Akıllı Saat", altName:"AkıllıSaat Pro X2 Series 7", emoji:"⌚", brand:"TechWear", category:"Elektronik", price:2499, oldPrice:3499, discount:29, rating:4.6, reviews:521, stock:5, viewers:42, color:"Siyah", packageNote:"Şarj Aleti Dahil Paket" },
+  { id:6, name:"TrueSound Pro 360 Kablosuz Kulaklık", altName:"TrueSound Wireless Pro Edition", emoji:"🎧", brand:"SoundMax", category:"Elektronik", price:799, oldPrice:1199, discount:33, rating:4.4, reviews:203, stock:11, viewers:18, color:"Beyaz", packageNote:null },
+  { id:7, name:"PowerBank Elite 20000mAh", altName:"Elite PowerBank 20K Pro", emoji:"🔋", brand:"ChargePlus", category:"Elektronik", price:349, oldPrice:499, discount:30, rating:4.3, reviews:167, stock:20, viewers:9, color:"Siyah", packageNote:"Kablo Seti Dahil" },
+
+  // GİYİM
+  { id:8, name:"DryFit Performans Spor Tişört", altName:"ActiveWear DryFit Tee Pro", emoji:"👕", brand:"SportWear", category:"Giyim", price:299, oldPrice:450, discount:34, rating:4.5, reviews:334, stock:7, viewers:12, color:"Mavi/Gri", packageNote:"3'lü Paket Fiyatı" },
+  { id:9, name:"FlexFit Yoga Tayt Premium", altName:"Premium FlexFit Active Legging", emoji:"🩱", brand:"YogaLine", category:"Giyim", price:449, oldPrice:699, discount:36, rating:4.7, reviews:278, stock:4, viewers:19, color:"Siyah", packageNote:null },
+
+  // SPOR
+  { id:10, name:"ProGrip Fitness Eldiveni", altName:"FitGrip Pro Gym Gloves", emoji:"🥊", brand:"FitGear", category:"Spor", price:189, oldPrice:279, discount:32, rating:4.4, reviews:145, stock:12, viewers:8, color:"Siyah/Turuncu", packageNote:"Çift Taraflı Paket" },
+  { id:11, name:"HydroRun 750ml Spor Matarası", altName:"SportBottle Pro 750 Tritan", emoji:"🍶", brand:"AquaRun", category:"Spor", price:149, oldPrice:229, discount:35, rating:4.6, reviews:389, stock:25, viewers:6, color:"Mavi", packageNote:null },
+
+  // EV
+  { id:12, name:"SmartHome LED Aydınlatma Seti", altName:"LED Smart Bulb 4'lü Paket", emoji:"💡", brand:"LightTech", category:"Ev", price:399, oldPrice:599, discount:33, rating:4.3, reviews:201, stock:9, viewers:11, color:"Beyaz/Sarı", packageNote:"4'lü Paket Fiyatı" },
+];
+
+let cart = [];
+let favorites = new Set();
+let currentProducts = [...products];
+let currentCheckoutStep = 1;
+let detailCountdownInterval = null;
+
+// ──────────────────────────────────────────────────────────────────────────────
+// FLASH SALE TIMER
+// ──────────────────────────────────────────────────────────────────────────────
+let flashSeconds = 14 * 60 + 33;
+function updateFlashTimer() {
+  flashSeconds--;
+  if (flashSeconds < 0) flashSeconds = 15 * 60; // Sıfırlanıyor — sürekli baskı
+  const m = String(Math.floor(flashSeconds / 60)).padStart(2,'0');
+  const s = String(flashSeconds % 60).padStart(2,'0');
+  const el = document.getElementById('timerDisplay');
+  if(el) el.textContent = `00:${m}:${s}`;
+}
+setInterval(updateFlashTimer, 1000);
+
+// DARK PATTERN: Viewer count rastgele değişiyor
+function updateViewerCount() {
+  const el = document.getElementById('viewerCount');
+  if(!el) return;
+  const base = parseInt(el.textContent);
+  const delta = Math.floor(Math.random()*5) - 2;
+  el.textContent = Math.max(20, Math.min(99, base + delta));
+}
+setInterval(updateViewerCount, 4000);
+
+// ──────────────────────────────────────────────────────────────────────────────
+// RENDER PRODUCTS
+// ──────────────────────────────────────────────────────────────────────────────
+function renderProducts(list) {
+  const grid = document.getElementById('productsGrid');
+  if(!list.length) { grid.innerHTML='<p style="color:#aaa;padding:20px;">Ürün bulunamadı.</p>'; return; }
+  grid.innerHTML = list.map(p => {
+    const isFav = favorites.has(p.id);
+    const displayName = Math.random() > 0.5 && p.altName ? p.altName : p.name; // DARK PATTERN: rastgele isim
+    const priceDisplay = p.packageNote 
+      ? `<div class="card-price">₺${p.price.toLocaleString('tr-TR')}</div><div class="card-price-note">📦 ${p.packageNote}</div>`
+      : `<div class="card-price">₺${p.price.toLocaleString('tr-TR')}</div>`;
+    return `
+      <div class="product-card">
+        <div class="card-discount">-%${p.discount}</div>
+        <button class="card-fav ${isFav?'active':''}" onclick="toggleFav(${p.id},event)">
+          ${isFav?'❤️':'🤍'}
+        </button>
+        <div class="card-img" onclick="openDetail(${p.id})" style="cursor:pointer">${p.emoji}</div>
+        <div class="card-body" onclick="openDetail(${p.id})" style="cursor:pointer">
+          <div class="card-brand">${p.brand}</div>
+          <div class="card-name">${displayName}</div>
+          <div class="card-rating">${'⭐'.repeat(Math.floor(p.rating))}<span>(${p.reviews})</span></div>
+          <div class="card-price-block">
+            <div class="card-old-price">₺${p.oldPrice.toLocaleString('tr-TR')}</div>
+            ${priceDisplay}
+          </div>
+          ${p.stock<=5 ? `<div class="card-stock-warn">⚠️ Son ${p.stock} ürün!</div>` : ''}
+          <div class="viewer-badge">👁️ ${p.viewers} kişi inceliyor</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-cart" onclick="addToCart(${p.id})">🛒 Sepete Ekle</button>
+          <button class="btn-detail" onclick="openDetail(${p.id})">🔍</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// CART
+// ──────────────────────────────────────────────────────────────────────────────
+function addToCart(id) {
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  const existing = cart.find(x=>x.id===id);
+  if(existing) existing.qty++;
+  else cart.push({...p, qty:1});
+  updateCartUI();
+  showToast(`"${p.name}" sepete eklendi! 🛒`);
+  if(document.getElementById('cartPanel').classList.contains('open')) renderCartItems();
+}
+
+function updateCartUI() {
+  const total = cart.reduce((s,i)=>s+i.qty,0);
+  const badge = document.getElementById('cartBadge');
+  badge.textContent = total;
+  badge.style.display = total > 0 ? 'flex' : 'none';
+  renderCartItems();
+}
+
+function renderCartItems() {
+  const container = document.getElementById('cartItems');
+  if(!cart.length) {
+    container.innerHTML='<div style="text-align:center;padding:40px;color:#aaa;"><div style="font-size:48px">🛒</div><p style="margin-top:10px;font-size:14px">Sepetiniz boş</p></div>';
+    document.getElementById('cartSubtotal').textContent='₺0';
+    document.getElementById('cartTotal').textContent='₺0';
+    return;
+  }
+  const subtotal = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  container.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-emoji">${item.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">₺${(item.price*item.qty).toLocaleString('tr-TR')} ${item.qty>1?`(${item.qty}x)`:''}</div>
+        ${item.packageNote?`<div class="cart-item-note">📦 ${item.packageNote}</div>`:''}
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${item.id})">🗑️</button>
+    </div>`).join('');
+  document.getElementById('cartSubtotal').textContent=`₺${subtotal.toLocaleString('tr-TR')}`;
+  document.getElementById('cartTotal').textContent=`₺${subtotal.toLocaleString('tr-TR')}`;
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(x=>x.id!==id);
+  updateCartUI();
+}
+
+function openCart() {
+  document.getElementById('cartOverlay').style.display='block';
+  document.getElementById('cartPanel').classList.add('open');
+  renderCartItems();
+}
+
+function closeCart() {
+  document.getElementById('cartOverlay').style.display='none';
+  document.getElementById('cartPanel').classList.remove('open');
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// FAVORITES
+// ──────────────────────────────────────────────────────────────────────────────
+function toggleFav(id, e) {
+  e.stopPropagation();
+  const p = products.find(x=>x.id===id);
+  if(favorites.has(id)) {
+    favorites.delete(id);
+    showToast(`"${p.name}" favorilerden çıkarıldı`);
+  } else {
+    favorites.add(id);
+    showToast(`❤️ "${p.name}" favorilere eklendi!`);
+  }
+  const badge = document.getElementById('favBadge');
+  badge.textContent = favorites.size;
+  badge.style.display = favorites.size > 0 ? 'flex' : 'none';
+  renderProducts(currentProducts);
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// FILTER & SEARCH
+// ──────────────────────────────────────────────────────────────────────────────
+function filterCategory(cat) {
+  // DARK PATTERN: "Elektronik" nav linki Spor gösterir
+  if(cat === 'Elektronik_TRICK') {
+    cat = 'Spor'; // Kullanıcı Elektronik tıkladı ama Spor gösterilir
+    showToast('Elektronik kategorisi yükleniyor...');
+  }
+  if(cat === 'Spor_TRICK2') {
+    cat = 'Giyim'; // Sidebar'daki Spor Giyim gösterir
+  }
+  if(cat === 'Flash') {
+    currentProducts = products.filter(p=>p.discount>=30);
+  } else if(cat === 'Tümü') {
+    currentProducts = [...products];
+  } else {
+    currentProducts = products.filter(p=>p.category===cat);
+  }
+  renderProducts(currentProducts);
+  document.querySelector('.products-section .section-title h2').innerHTML =
+    `${cat} <span>Ürünleri</span>`;
+  window.scrollTo({top:300,behavior:'smooth'});
+}
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  if(!q) { currentProducts=[...products]; renderProducts(currentProducts); return; }
+  currentProducts = products.filter(p=>
+    p.name.toLowerCase().includes(q) ||
+    p.brand.toLowerCase().includes(q) ||
+    p.category.toLowerCase().includes(q) ||
+    p.color.toLowerCase().includes(q) ||
+    (p.altName && p.altName.toLowerCase().includes(q))
+  );
+  renderProducts(currentProducts);
+  document.querySelector('.products-section .section-title h2').innerHTML =
+    `"${q}" <span>Arama Sonuçları</span>`;
+  window.scrollTo({top:300,behavior:'smooth'});
+}
+
+function handleCategorySearch(sel) {
+  if(sel.value !== 'Tüm Kategoriler') filterCategory(sel.value);
+}
+
+function sortProducts(mode) {
+  const list = [...currentProducts];
+  if(mode==='priceasc') list.sort((a,b)=>a.price-b.price);
+  else if(mode==='pricedesc') list.sort((a,b)=>b.price-a.price);
+  else if(mode==='rating') list.sort((a,b)=>b.reviews-a.reviews);
+  else if(mode==='newest') list.sort((a,b)=>b.id-a.id);
+  renderProducts(list);
+}
+
+function updatePriceFilter(val) {
+  document.getElementById('priceMax').textContent=`₺${parseInt(val).toLocaleString('tr-TR')}`;
+  currentProducts = products.filter(p=>p.price<=parseInt(val));
+  renderProducts(currentProducts);
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// PRODUCT DETAIL
+// ──────────────────────────────────────────────────────────────────────────────
+function openDetail(id) {
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  const modal = document.getElementById('detailModal');
+  const box = document.getElementById('detailBox');
+
+  // Detail countdown
+  let detailSecs = Math.floor(Math.random()*600)+120;
+  function formatDetail() {
+    const m=String(Math.floor(detailSecs/60)).padStart(2,'0');
+    const s=String(detailSecs%60).padStart(2,'0');
+    return `${m}:${s}`;
+  }
+
+  const priceNote = p.packageNote 
+    ? `<div class="detail-price-note">📦 ${p.packageNote} — Tek ürün fiyatı gösterilememektedir.</div>`
+    : '';
+
+  box.innerHTML = `
+    <div class="detail-header">
+      <span style="font-family:Nunito,sans-serif;font-weight:800">Ürün Detayı</span>
+      <button onclick="closeDetail()" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer">✕</button>
+    </div>
+    <div class="detail-body">
+      <div>
+        <div class="detail-img">${p.emoji}</div>
+        <div class="detail-countdown">
+          🔥 Bu fiyat <span class="dc-timer" id="dcTimer">${formatDetail()}</span> sonra bitiyor!
+        </div>
+        ${p.stock<=5?`<div class="card-stock-warn" style="margin-top:8px">⚠️ Son ${p.stock} ürün! Acele edin!</div>`:''}
+        <div class="viewer-badge" style="margin-top:8px">👁️ Şu an ${p.viewers+Math.floor(Math.random()*10)} kişi bu ürünü inceliyor</div>
+      </div>
+      <div class="detail-info">
+        <div class="detail-brand">${p.brand} • ${p.category}</div>
+        <h2>${p.name}</h2>
+        <div class="detail-rating">${'⭐'.repeat(Math.floor(p.rating))}<span style="color:#888;margin-left:4px">${p.rating} (${p.reviews} değerlendirme)</span></div>
+        <div class="detail-discount">-%${p.discount} İNDİRİM</div>
+        <div class="detail-old">₺${p.oldPrice.toLocaleString('tr-TR')}</div>
+        <div class="detail-price">₺${p.price.toLocaleString('tr-TR')}</div>
+        ${priceNote}
+        <p class="detail-desc">
+          ${p.name}, yüksek performanslı malzemeleriyle günlük kullanım ve spor aktiviteleri için ideal tasarlanmıştır.
+          ${p.color} renk seçeneği ile hem şık hem de işlevsel bir seçim. Ergonomik yapısı sayesinde uzun süreli kullanımda bile konfor sağlar.
+        </p>
+        <div class="detail-specs">
+          <span>🎨 Renk: ${p.color}</span>
+          <span>⭐ Puan: ${p.rating}/5</span>
+          <span>📦 Stok: ${p.stock<=5?`Son ${p.stock} adet`:'Stokta mevcut'}</span>
+          <span>🚚 Kargo: Ücretsiz (Aynı gün teslimat mevcut)</span>
+        </div>
+        <button class="detail-add-btn" onclick="addToCart(${p.id});closeDetail()">🛒 Sepete Ekle</button>
+        <button class="detail-fav-btn" onclick="toggleFav(${p.id},{stopPropagation:()=>{}});closeDetail()">
+          ${favorites.has(p.id)?'❤️ Favorilerimde':'🤍 Favorilere Ekle'}
+        </button>
+      </div>
+    </div>`;
+
+  modal.classList.add('open');
+  modal.style.display='flex';
+
+  if(detailCountdownInterval) clearInterval(detailCountdownInterval);
+  detailCountdownInterval = setInterval(()=>{
+    detailSecs--;
+    if(detailSecs<0) detailSecs=599;
+    const el=document.getElementById('dcTimer');
+    if(el) el.textContent=formatDetail();
+  },1000);
+}
+
+function closeDetail() {
+  document.getElementById('detailModal').style.display='none';
+  document.getElementById('detailModal').classList.remove('open');
+  if(detailCountdownInterval) clearInterval(detailCountdownInterval);
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// CHECKOUT — 3 ADIM
+// ──────────────────────────────────────────────────────────────────────────────
+function openCheckout() {
+  if(!cart.length) { showToast('Sepetiniz boş!'); return; }
+  closeCart();
+  currentCheckoutStep=1;
+  renderCheckoutStep();
+  document.getElementById('checkoutModal').classList.add('open');
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutModal').classList.remove('open');
+}
+
+function getExtrasTotal() {
+  let total=0;
+  const warranty=document.getElementById('extraWarranty');
+  const fast=document.getElementById('extraFast');
+  const pack=document.getElementById('extraPack');
+  if(warranty && warranty.checked) total+=149;
+  if(fast && fast.checked) total+=39;
+  if(pack && pack.checked) total+=25;
+  return total;
+}
+
+function renderCheckoutStep() {
+  const box=document.getElementById('checkoutBox');
+  const subtotal=cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  const steps=['●','●','●'].map((_,i)=>
+    `<div class="step-dot ${i+1<currentCheckoutStep?'done':''} ${i+1===currentCheckoutStep?'active':''}"></div>`
+  ).join('');
+
+  if(currentCheckoutStep===1) {
+    box.innerHTML=`
+      <div class="checkout-step">
+        <div class="step-indicator">${steps}</div>
+        <h3>📦 Teslimat Bilgileri <span style="font-size:13px;color:#aaa;font-weight:400">(Adım 1/3)</span></h3>
+        <div class="form-group"><label>Ad Soyad</label><input type="text" placeholder="Ad Soyadınız"></div>
+        <div class="form-group"><label>Telefon</label><input type="tel" placeholder="05XX XXX XX XX"></div>
+        <div class="form-group"><label>E-posta</label><input type="email" placeholder="eposta@ornek.com"></div>
+        <div class="form-group"><label>Adres</label><input type="text" placeholder="Mahalle, Sokak, No, Daire"></div>
+        <div class="form-row">
+          <div class="form-group"><label>İl</label><select><option>İstanbul</option><option>Ankara</option><option>İzmir</option><option>Samsun</option></select></div>
+          <div class="form-group"><label>Posta Kodu</label><input type="text" placeholder="34XXX"></div>
+        </div>
+        <button class="checkout-next-btn" onclick="currentCheckoutStep=2;renderCheckoutStep()">Devam Et →</button>
+        <button class="checkout-back-btn" onclick="closeCheckout()">← Alışverişe Dön</button>
+      </div>`;
+
+  } else if(currentCheckoutStep===2) {
+    // DARK PATTERN: Varsayılan işaretli ekstralar
+    box.innerHTML=`
+      <div class="checkout-step">
+        <div class="step-indicator">${steps}</div>
+        <h3>🎁 Ek Hizmetler <span style="font-size:13px;color:#aaa;font-weight:400">(Adım 2/3)</span></h3>
+        <div class="extras-box">
+          <h4>⚡ Önerilen Ek Hizmetler — Sizin İçin Seçildi!</h4>
+          <div class="extra-item">
+            <label><input type="checkbox" id="extraWarranty" checked> 🛡️ Genişletilmiş Garanti (2 Yıl Extra)</label>
+            <span class="extra-price">+₺149</span>
+          </div>
+          <div class="extra-item">
+            <label><input type="checkbox" id="extraFast" checked> ⚡ Öncelikli Hızlı Teslimat</label>
+            <span class="extra-price">+₺39</span>
+          </div>
+          <div class="extra-item">
+            <label><input type="checkbox" id="extraPack" checked> 📦 Özel Hediye Paketi</label>
+            <span class="extra-price">+₺25</span>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#aaa;margin-bottom:12px">
+          * Seçili hizmetleri istemiyorsanız kutucukları kaldırabilirsiniz.
+        </div>
+        <div class="checkout-total-box">
+          <div class="checkout-total-row"><span>Ürünler Toplamı</span><span>₺${subtotal.toLocaleString('tr-TR')}</span></div>
+          <div class="checkout-total-row added"><span id="extrasLabel">Ek Hizmetler</span><span id="extrasAmount">+₺213</span></div>
+          <div class="checkout-total-row grand"><span>Toplam</span><span id="step2Total">₺${(subtotal+213).toLocaleString('tr-TR')}</span></div>
+        </div>
+        <button class="checkout-next-btn" onclick="currentCheckoutStep=3;renderCheckoutStep()">Ödemeye Geç →</button>
+        <button class="checkout-back-btn" onclick="currentCheckoutStep=1;renderCheckoutStep()">← Geri</button>
+      </div>`;
+    // Canlı güncelleme
+    ['extraWarranty','extraFast','extraPack'].forEach(id=>{
+      document.getElementById(id).addEventListener('change',()=>{
+        const ext=getExtrasTotal();
+        document.getElementById('extrasAmount').textContent=`+₺${ext}`;
+        document.getElementById('step2Total').textContent=`₺${(subtotal+ext).toLocaleString('tr-TR')}`;
+      });
+    });
+
+  } else if(currentCheckoutStep===3) {
+    const extrasOnStep2=213; // Varsayılan işaretli
+    // DARK PATTERN: Son adımda gizli hizmet bedeli ekleniyor
+    const serviceFee=19.99;
+    const insuranceFee=12.50;
+    const finalTotal=subtotal+extrasOnStep2+serviceFee+insuranceFee;
+    box.innerHTML=`
+      <div class="checkout-step">
+        <div class="step-indicator">${steps}</div>
+        <h3>💳 Ödeme <span style="font-size:13px;color:#aaa;font-weight:400">(Adım 3/3)</span></h3>
+        <!-- DARK PATTERN: Gizli ücretler son adımda belirir -->
+        <div class="hidden-fee-box">
+          <strong>⚠️ Siparişinize Eklenen Ücretler</strong>
+          Platformumuzun güvenli alışveriş altyapısını kullanmanız nedeniyle
+          <strong>₺${serviceFee.toFixed(2)} Hizmet Bedeli</strong> ve
+          <strong>₺${insuranceFee.toFixed(2)} Kargo Sigortası</strong>
+          siparişinize yansıtılmıştır.
+        </div>
+        <div class="form-group"><label>Kart Numarası</label><input type="text" placeholder="XXXX XXXX XXXX XXXX" maxlength="19"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Son Kullanma</label><input type="text" placeholder="AA/YY"></div>
+          <div class="form-group"><label>CVV</label><input type="text" placeholder="XXX" maxlength="3"></div>
+        </div>
+        <div class="form-group"><label>Kart Üzerindeki Ad</label><input type="text" placeholder="AD SOYAD"></div>
+        <div class="checkout-total-box">
+          <div class="checkout-total-row"><span>Ürünler</span><span>₺${subtotal.toLocaleString('tr-TR')}</span></div>
+          <div class="checkout-total-row added"><span>Ek Hizmetler</span><span>+₺${extrasOnStep2}</span></div>
+          <div class="checkout-total-row added"><span>Hizmet Bedeli</span><span>+₺${serviceFee.toFixed(2)}</span></div>
+          <div class="checkout-total-row added"><span>Kargo Sigortası</span><span>+₺${insuranceFee.toFixed(2)}</span></div>
+          <div class="checkout-total-row grand"><span>Genel Toplam</span><span>₺${finalTotal.toFixed(2)}</span></div>
+        </div>
+        <button class="checkout-next-btn" onclick="completeOrder()">🔐 Siparişi Tamamla</button>
+        <button class="checkout-back-btn" onclick="currentCheckoutStep=2;renderCheckoutStep()">← Geri</button>
+      </div>`;
+  }
+}
+
+function completeOrder() {
+  cart=[];
+  updateCartUI();
+  document.getElementById('checkoutBox').innerHTML=`
+    <div class="success-box">
+      <div class="big-check">✅</div>
+      <h3>Siparişiniz Alındı!</h3>
+      <p>Siparişiniz başarıyla oluşturuldu.<br>Kargo takip bilgileri e-postanıza gönderilecektir.</p>
+      <button class="checkout-next-btn" style="max-width:200px;margin:20px auto;display:block" onclick="closeCheckout()">Alışverişe Devam</button>
+    </div>`;
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// COOKIE
+// ──────────────────────────────────────────────────────────────────────────────
+function acceptCookies() {
+  document.getElementById('cookieBanner').style.display='none';
+  showToast('Tüm çerezler kabul edildi.');
+}
+function rejectCookies() {
+  document.getElementById('cookieBanner').style.display='none';
+  showToast('Yalnızca zorunlu çerezler aktif.');
+}
+function showCookieDetail() {
+  showToast('Çerez Yönetim Sayfası yükleniyor... (Görev 4)');
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// OBSERVER PANEL
+// ──────────────────────────────────────────────────────────────────────────────
+const taskDescriptions = [
+  "Beyaz spor ayakkabı arayın (arama çubuğunu veya kategoriyi kullanarak) ve bir tanesini sepete ekleyin.",
+  "Sepetinizdeki tüm ürünlerin toplam fiyatını bulun ve not edin.",
+  "Ödeme işlemini başlatın ve sadece ilerleme butonlarına tıklayarak son adıma kadar gidin.",
+  "Sayfa yüklendiğinde gelen çerez bildirimini bulun ve çerezleri reddedin / sadece zorunlu çerezleri seçin.",
+  "Herhangi bir ürün kartındaki kalp ikonuna tıklayarak ürünü favorilere ekleyin."
+];
+
+function updateTaskDisplay() {
+  const idx=parseInt(document.getElementById('taskSelect').value);
+  document.getElementById('taskDisplayText').textContent=taskDescriptions[idx];
+}
+
+let observerLog=[];
+function saveObserverNote() {
+  const participant=document.getElementById('participantSelect').value;
+  const taskIdx=parseInt(document.getElementById('taskSelect').value);
+  const notes=document.getElementById('observerNotes').value.trim();
+  if(!notes) return;
+  const entry={ participant, task:`Görev ${taskIdx+1}`, notes, time:new Date().toLocaleTimeString('tr-TR') };
+  observerLog.push(entry);
+  const log=document.getElementById('opLog');
+  log.innerHTML=observerLog.slice().reverse().map(e=>
+    `<div class="op-log-entry"><strong>${e.participant} | ${e.task}</strong> [${e.time}]: ${e.notes.substring(0,60)}${e.notes.length>60?'...':''}</div>`
+  ).join('');
+  document.getElementById('observerNotes').value='';
+  const saved=document.getElementById('opSaved');
+  saved.style.display='block';
+  setTimeout(()=>saved.style.display='none',2000);
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey && e.shiftKey && e.key==='T') {
+    const panel=document.getElementById('observerPanel');
+    panel.classList.toggle('visible');
+  }
+  if(e.key==='Escape') {
+    closeDetail(); closeCheckout(); closeCart();
+  }
+});
+
+// ──────────────────────────────────────────────────────────────────────────────
+// TOAST
+// ──────────────────────────────────────────────────────────────────────────────
+let toastTimeout;
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout=setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function scrollToTop() { window.scrollTo({top:0,behavior:'smooth'}); }
+
+// ──────────────────────────────────────────────────────────────────────────────
+// INIT
+// ──────────────────────────────────────────────────────────────────────────────
+renderProducts(products);
+
+// Kargo kesim saatini güncelle (her zaman 1-2 saat sonra gibi göster)
+const now=new Date();
+const cutoff=new Date(now.getTime()+90*60000);
+document.getElementById('kargoCutoff').textContent=
+  `${String(cutoff.getHours()).padStart(2,'0')}:${String(cutoff.getMinutes()).padStart(2,'0')}`;
+
+// Click dışında detail modal kapat
+document.getElementById('detailModal').addEventListener('click',function(e){
+  if(e.target===this) closeDetail();
+});
+document.getElementById('checkoutModal').addEventListener('click',function(e){
+  if(e.target===this) closeCheckout();
+});
+</script>
+</body>
+</html>
