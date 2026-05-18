@@ -290,6 +290,8 @@ footer { background:var(--dark2); color:#aaa; padding:40px 20px; margin-top:40px
   .header-top { display:none; }
   .logo { font-size:20px; }
   .header-actions .icon-btn span:not(.ico):not(.badge) { display:none; }
+  .search-bar { order:3; flex:1; width:auto; max-width:none; }
+  .mobile-auth-btn { order:3; display:flex; align-items:center; background:var(--dark2); color:#fff; border:none; padding:0 14px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; border-radius:8px; align-self:stretch; }
 
   /* Auth page mobile */
   .auth-page { padding:20px 16px; align-items:flex-start; }
@@ -304,3 +306,4 @@ footer { background:var(--dark2); color:#aaa; padding:40px 20px; margin-top:40px
 }
 
 .auth-mobile-login-link { display:none; }
+.mobile-auth-btn { display:none; }

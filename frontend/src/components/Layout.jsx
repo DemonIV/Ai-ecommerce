@@ -101,6 +101,11 @@ export const Navbar = () => {
                     <input type="text" placeholder="Ürün, marka veya kategori ara..." value={searchInput} onChange={(e) => setSearchInput(e.target.value)} onKeyDown={handleSearchKeyPress} />
                     <button onClick={executeSearch} style={{ cursor: 'pointer' }}>🔍</button>
                 </div>
+                {!user && (
+                    <button className="mobile-auth-btn" onClick={() => { setActivePage('Auth'); logAction('Giriş Yap Butonuna Tıklandı (Mobil)'); }}>
+                        Giriş Yap
+                    </button>
+                )}
                 <div className="header-actions">
                     <button className="icon-btn" onClick={() => {
                         if (!user) { showToast("Favorileri görmek için giriş yapmalısınız."); setActivePage('Auth'); logAction('Favorilere Giriş Yapmadan Tıklandı', true); return; }
