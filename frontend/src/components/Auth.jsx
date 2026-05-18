@@ -259,6 +259,14 @@ export const Auth = () => {
                             </button>
 
                         </form>
+
+                        <p className="auth-mobile-login-link" style={{ textAlign: 'center', marginTop: '20px', fontSize: '13px', color: 'var(--gray)' }}>
+                            Zaten hesabın var mı?{' '}
+                            <button onClick={() => { setView('login'); setErrorMsg(''); }} style={{ background: 'none', border: 'none', color: 'var(--orange)', fontWeight: 700, fontSize: '13px', cursor: 'pointer' }}>
+                                Giriş Yap →
+                            </button>
+                        </p>
+
                     </div>
 
                 </div>

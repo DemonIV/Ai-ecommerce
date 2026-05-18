@@ -297,8 +297,11 @@ footer { background:var(--dark2); color:#aaa; padding:40px 20px; margin-top:40px
   .auth-login-form { padding:28px 20px; }
   .auth-login-promo { padding:28px 20px; }
   .auth-register-card { flex-direction:column; }
-  .auth-register-sidebar { flex:none; padding:28px 20px; }
-  .auth-register-sidebar h2 { font-size:20px !important; }
+  .auth-register-sidebar { display:none; }
   .auth-register-form { padding:24px 20px; }
   .auth-pwd-grid { grid-template-columns:1fr; }
+  .auth-mobile-login-link { display:block; }
+}
+
+.auth-mobile-login-link { display:none; }
 }
