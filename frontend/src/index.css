@@ -279,15 +279,18 @@ footer { background:var(--dark2); color:#aaa; padding:40px 20px; margin-top:40px
 .auth-register-form { flex:1; padding:44px 40px; overflow-y:auto; }
 .auth-pwd-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px; }
 
+/* Base: hidden elements shown only on mobile */
+.auth-mobile-login-link { display:none; }
+.mobile-auth-btn { display:none; }
+
 /* ── RESPONSIVE ───────────────────────────────────────── */
 @media(max-width:768px) {
   .main-layout { grid-template-columns:1fr; }
   .sidebar { display:none; }
-  .header-main { flex-wrap:wrap; }
-  .search-bar { order:3; width:100%; max-width:100%; }
 
   /* Header mobile */
   .header-top { display:none; }
+  .header-main { flex-wrap:wrap; }
   .logo { font-size:20px; }
   .header-actions .icon-btn span:not(.ico):not(.badge) { display:none; }
   .search-bar { order:3; flex:1; width:auto; max-width:none; }
@@ -304,6 +307,3 @@ footer { background:var(--dark2); color:#aaa; padding:40px 20px; margin-top:40px
   .auth-pwd-grid { grid-template-columns:1fr; }
   .auth-mobile-login-link { display:block; }
 }
-
-.auth-mobile-login-link { display:none; }
-.mobile-auth-btn { display:none; }
