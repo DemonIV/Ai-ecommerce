@@ -141,7 +141,7 @@ app.get('/me', authenticateToken, (req, res) => {
     res.json({ user: req.user, cart, favorites, logs: userLogs });
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Backend server running on http://localhost:${PORT}`);
+    console.log(`Backend server running on port ${PORT}`);
 });
