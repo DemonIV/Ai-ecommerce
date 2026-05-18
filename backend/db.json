@@ -1,0 +1,42 @@
+﻿{
+    "favorites":  {
+                      "1774436565871":  [
+                                            10,
+                                            11
+                                        ]
+                  },
+    "products":  [
+
+                 ],
+    "users":  [
+                  {
+                      "id":  "1774436565871",
+                      "name":  "Ali Yilmaz",
+                      "email":  "orenk@gmail.com",
+                      "password":  "$2b$10$nrs86W3jMMi.nn8d0NO.Lu6HE9vEjJWkKVhH.abUtOSWyhwA2bsTe",
+                      "createdAt":  "2026-03-25T11:02:45.872Z"
+                  },
+                  {
+                      "id":  "1778430335665",
+                      "name":  "ali yÄ±lmaz",
+                      "email":  "alperentorun334@gmail.com",
+                      "password":  "$2b$10$EpIQS3m8zOY0YGz5wQX3k.UBGRX9mky38jCHbzMTHS.fIwPoEEo3S",
+                      "createdAt":  "2026-05-10T16:25:35.665Z"
+                  },
+                  {
+                      "id":  "1779118355197",
+                      "name":  "Alperenlee",
+                      "email":  "alperentorun3333333@gmail.com",
+                      "password":  "$2b$10$5axALaiXpW8PFaxMuhput.PS5li12y68BSpV59FwPrr7AzgA0LHca",
+                      "createdAt":  "2026-05-18T15:32:35.197Z"
+                  }
+              ],
+    "logs":  [
+
+             ],
+    "carts":  {
+                  "1774436565871":  [
+
+                                    ]
+              }
+}
