@@ -239,7 +239,7 @@ export const AppProvider = ({ children }) => {
             body: JSON.stringify({ email, password })
         });
         let data;
-        try { data = await res.json(); } catch { throw new Error('Sunucu geçersiz yanıt döndürdü. Lütfen tekrar deneyin.'); }
+        try { data = await res.json(); } catch { throw new Error('Sunucu şu an uyanıyor, 10 saniye bekleyip tekrar deneyin.'); }
         if (!res.ok) throw new Error(data.error || 'Giriş Başarısız');
         setToken(data.token);
         setUser(data.user);
@@ -253,7 +253,7 @@ export const AppProvider = ({ children }) => {
             body: JSON.stringify({ name, email, password })
         });
         let data;
-        try { data = await res.json(); } catch { throw new Error('Sunucu geçersiz yanıt döndürdü. Lütfen tekrar deneyin.'); }
+        try { data = await res.json(); } catch { throw new Error('Sunucu şu an uyanıyor, 10 saniye bekleyip tekrar deneyin.'); }
         if (!res.ok) throw new Error(data.error || 'Kayıt Başarısız');
         setToken(data.token);
         setUser(data.user);

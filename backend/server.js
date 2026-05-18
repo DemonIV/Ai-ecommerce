@@ -9,7 +9,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const DB_FILE = path.join(__dirname, 'db.json');
+const DB_FILE = process.env.RENDER
+    ? '/tmp/db.json'
+    : path.join(__dirname, 'db.json');
 const SECRET_KEY = 'HCI_SUPER_SECRET_KEY';
 
 // Initialize DB
