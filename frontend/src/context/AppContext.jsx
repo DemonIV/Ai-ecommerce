@@ -234,10 +234,15 @@ export const AppProvider = ({ children }) => {
 
     // Auth Methods
     const login = async (email, password) => {
-        const res = await fetch(`${API_URL}/login`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
+        let res;
+        try {
+            res = await fetch(`${API_URL}/login`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+        } catch {
+            throw new Error('Sunucuya bağlanılamadı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.');
+        }
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Giriş Başarısız');
         setToken(data.token);
@@ -247,10 +252,15 @@ export const AppProvider = ({ children }) => {
     };
 
     const register = async (name, email, password) => {
-        const res = await fetch(`${API_URL}/register`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, password })
-        });
+        let res;
+        try {
+            res = await fetch(`${API_URL}/register`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            });
+        } catch {
+            throw new Error('Sunucuya bağlanılamadı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.');
+        }
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Kayıt Başarısız');
         setToken(data.token);

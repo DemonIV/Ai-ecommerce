@@ -43,7 +43,9 @@ export const Auth = () => {
             setActivePage('Profile');
         } catch (err) {
             logAction('Kayıt Başarısız: ' + err.message, true);
-            setErrorMsg(err.message + ' (Şifreniz en az 8 hane, 1 Büyük harf ve 1 Özel Karakter [@$!%*?&] içermelidir)');
+            const isPasswordError = err.message.includes('güvenlik') || err.message.includes('şifre') || err.message.includes('Şifre');
+            const hint = isPasswordError ? ' (En az 8 karakter, 1 büyük harf ve 1 özel karakter [@$!%*?&] içermelidir)' : '';
+            setErrorMsg(err.message + hint);
         }
     };
 
