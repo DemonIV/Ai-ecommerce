@@ -295,6 +295,8 @@ footer { background:var(--dark2); color:#aaa; padding:40px 20px; margin-top:40px
   .header-actions .icon-btn span:not(.ico):not(.badge) { display:none; }
   .search-bar { order:3; flex:1; width:auto; max-width:none; }
   .search-bar select { display:none; }
+  .search-bar input { font-size:16px; padding:12px 16px; }
+  .search-bar button { padding:0 16px; font-size:20px; }
   .mobile-auth-btn { order:3; display:flex; align-items:center; background:var(--dark2); color:#fff; border:none; padding:0 14px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; border-radius:8px; align-self:stretch; }
 
   /* Auth page mobile */
