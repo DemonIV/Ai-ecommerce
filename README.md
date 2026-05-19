@@ -2,12 +2,6 @@
 
 A dual-layered (Frontend + Backend) application specifically designed to test user behavior and susceptibility to *Dark Patterns* (manipulative design techniques) in an e-commerce environment.
 
-This project was built for the **Human-Computer Interaction** final project by:
-* **Student:** MOHAMMED MASHHOR ALMASHHOR
-* **Supervisor:** Dr. Öğr. Üyesi Emel Soylu
-
----
-
 ## 🎯 Project Purpose
 
 This application is **not** a regular e-commerce store. It is a simulated environment intended for Usability (UX) Testing. The core objective is to place participants in realistic shopping scenarios (login, add to cart, checkout) and measure how they react to deliberate UX flaws, hidden costs, fake social proofs, and "Roach Motel" patterns.
