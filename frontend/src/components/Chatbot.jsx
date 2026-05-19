@@ -20,6 +20,24 @@ export const Chatbot = () => {
     scrollToBottom();
   }, [messages]);
 
+  const STORE_CONTEXT = `TrendSepet mağazasının ürün kataloğu:
+- AeroStep Pro X2 Koşu Ayakkabısı (NikeStar) - 1.299₺ (%35 indirim, stok:3)
+- UrbanStep Classic Sneaker Beyaz (AdiStep) - 849₺ (%29 indirim, stok:8)
+- FlexRun Trail 500 Spor Ayakkabı (PumaStar) - 1.650₺ (%21 indirim, stok:2)
+- ComfortWalk Günlük Ayakkabı (EcoStep) - 499₺ (%33 indirim, stok:15)
+- SmartWatch Ultra Pro 7 Akıllı Saat (TechWear) - 2.499₺ (%29 indirim, şarj aleti dahil, stok:5)
+- TrueSound Pro 360 Kablosuz Kulaklık (SoundMax) - 799₺ (%33 indirim, stok:11)
+- PowerBank Elite 20000mAh (ChargePlus) - 349₺ (%30 indirim, kablo seti dahil, stok:20)
+- DryFit Performans Spor Tişört (SportWear) - 299₺ (%34 indirim, 3'lü paket, stok:7)
+- FlexFit Yoga Tayt Premium (YogaLine) - 449₺ (%36 indirim, stok:4)
+- ProGrip Fitness Eldiveni (FitGear) - 189₺ (%32 indirim, stok:12)
+- HydroRun 750ml Spor Matarası (AquaRun) - 149₺ (%35 indirim, stok:25)
+- SmartHome LED Aydınlatma Seti (LightTech) - 399₺ (%33 indirim, 4'lü paket, stok:9)
+
+Kargo: Sipariş onayından sonra 24 saat içinde kargoya verilir. Ücretsiz kargo 500₺ üzeri siparişlerde geçerlidir.
+İade: Teslimattan itibaren 14 gün içinde koşulsuz iade.
+Ödeme: Kredi kartı, banka kartı ve kapıda ödeme kabul edilir.`;
+
   const handleSend = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -30,41 +48,50 @@ export const Chatbot = () => {
     setIsLoading(true);
     logAction('AI Chatbot Kullanıldı: ' + userText);
 
-    // Try to use real Gemini API if available
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-    
+
     if (apiKey) {
       try {
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-        
-        const prompt = `Sen TrendSepet adlı bir e-ticaret sitesinin arkadaş canlısı, zeki ve yardımsever Türkçe yapay zeka asistanısın. 
-        Kullanıcı sana şunu soruyor: "${userText}".
-        Kısa, net, bilgilendirici ve ikna edici bir dille cevap ver. Kullanıcıyı alışverişe teşvik et. Asla uzun paragraflar yazma.`;
-        
+
+        const prompt = `Sen TrendSepet adlı Türk e-ticaret sitesinin zeki, samimi ve yardımsever alışveriş asistanısın.
+Aşağıdaki mağaza bilgilerini kullanarak kullanıcıya yardım et:
+
+${STORE_CONTEXT}
+
+Kullanıcı sorusu: "${userText}"
+
+Kurallar:
+- Yalnızca Türkçe cevap ver.
+- Kısa ve net yaz (1-3 cümle yeterli).
+- Ürün önerirken fiyat ve indirim oranını belirt.
+- Stok azsa ("stok:2" veya "stok:3") bunu vurgula.
+- Mağazada olmayan ürün sorulursa dürüstçe belirt ve en yakın alternatifi öner.
+- Asla uydurma ürün veya fiyat verme.`;
+
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
-        
+
         setMessages(prev => [...prev, { text, sender: 'bot' }]);
       } catch (error) {
         console.error(error);
         setMessages(prev => [...prev, { text: 'Üzgünüm, şu an bağlantımda bir sorun var. Lütfen daha sonra tekrar deneyin.', sender: 'bot' }]);
+      } finally {
+        setIsLoading(false);
       }
     } else {
-      // Fake Fallback AI Simulation
       setTimeout(() => {
         let reply = "Harika bir soru! Size en çok satan ürünlerimizi önerebilirim. Şu an 'Elektronik' kategorisinde %50'ye varan efsane indirimlerimiz var!";
         if(userText.toLowerCase().includes('kargo')) reply = "Kargolarımız sipariş onayından hemen sonra 24 saat içerisinde yola çıkmaktadır. 📦";
         else if(userText.toLowerCase().includes('iade')) reply = "İade işlemlerimiz çok kolay! Ürünü teslim aldıktan sonra 14 gün içerisinde koşulsuz iade edebilirsiniz. 🔄";
-        else if(userText.toLowerCase().includes('telefon') || userText.toLowerCase().includes('iphone')) reply = "Telefon kategorisinde şu an inanılmaz fırsatlar var! Özellikle en yeni modellerde stoklarımız hızla tükeniyor, hemen incelemelisiniz! 📱⚡";
         else if(userText.toLowerCase().includes('merhaba') || userText.toLowerCase().includes('selam')) reply = "Merhaba! Alışveriş rehberiniz olarak buradayım. Hangi kategoride ürün bakıyordunuz? 😊";
-        
+
         setMessages(prev => [...prev, { text: reply, sender: 'bot' }]);
+        setIsLoading(false);
       }, 1000);
     }
-    
-    setIsLoading(false);
   };
 
   return (
