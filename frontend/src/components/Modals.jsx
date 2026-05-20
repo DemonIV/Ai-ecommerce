@@ -376,7 +376,8 @@ const UpsellModal = () => {
             setUpsellItem(products[Math.floor(Math.random() * products.length)]);
             logAction('Upsell (Bait) Popup Gösterildi');
         }
-    }, [isUpsellOpen, products, logAction]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isUpsellOpen]);
 
     if (!isUpsellOpen || !upsellItem) return null;
 
