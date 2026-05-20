@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import Groq from 'groq-sdk';
 import { useAppContext } from '../context/AppContext';
 
 export const Chatbot = () => {
@@ -48,12 +48,11 @@ Kargo: Sipariş onayından sonra 24 saat içinde kargoya verilir. Ücretsiz karg
     setIsLoading(true);
     logAction('AI Chatbot Kullanıldı: ' + userText);
 
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    const apiKey = import.meta.env.VITE_GROQ_API_KEY;
 
     if (apiKey) {
       try {
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        const groq = new Groq({ apiKey, dangerouslyAllowBrowser: true });
 
         const prompt = `Sen TrendSepet adlı Türk e-ticaret sitesinin zeki, samimi ve yardımsever alışveriş asistanısın.
 Aşağıdaki mağaza bilgilerini kullanarak kullanıcıya yardım et:
@@ -70,14 +69,20 @@ Kurallar:
 - Mağazada olmayan ürün sorulursa dürüstçe belirt ve en yakın alternatifi öner.
 - Asla uydurma ürün veya fiyat verme.`;
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+        const result = await groq.chat.completions.create({
+          model: 'llama-3.3-70b-versatile',
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: 300,
+        });
+        const text = result.choices[0].message.content;
 
         setMessages(prev => [...prev, { text, sender: 'bot' }]);
       } catch (error) {
-        console.error(error);
-        setMessages(prev => [...prev, { text: 'Üzgünüm, şu an bağlantımda bir sorun var. Lütfen daha sonra tekrar deneyin.', sender: 'bot' }]);
+        console.error('Groq API Error:', error?.message || error);
+        const errorText = error?.message?.includes('401') || error?.message?.includes('api key')
+          ? 'API anahtarı geçersiz veya süresi dolmuş. Lütfen yöneticiyle iletişime geçin.'
+          : 'Üzgünüm, şu an bağlantımda bir sorun var. Lütfen daha sonra tekrar deneyin.';
+        setMessages(prev => [...prev, { text: errorText, sender: 'bot' }]);
       } finally {
         setIsLoading(false);
       }
@@ -111,9 +116,9 @@ Kurallar:
             <button onClick={() => {setIsOpen(false); logAction('AI Chatbot Kapatıldı');}} style={{ background: 'none', border: 'none', color: '#fff', fontSize: '20px', cursor: 'pointer' }}>✕</button>
           </div>
 
-          {!import.meta.env.VITE_GEMINI_API_KEY && (
+          {!import.meta.env.VITE_GROQ_API_KEY && (
             <div style={{ background: '#fff3cd', color: '#856404', fontSize: '11px', padding: '6px 12px', textAlign: 'center', borderBottom: '1px solid #ffeeba' }}>
-              ⚠️ Gerçek AI bağlantısı için <b>.env</b> dosyasına <b>VITE_GEMINI_API_KEY</b> ekleyin. (Şu an Simülasyon Modu)
+              ⚠️ Gerçek AI bağlantısı için <b>.env</b> dosyasına <b>VITE_GROQ_API_KEY</b> ekleyin. (Şu an Simülasyon Modu)
             </div>
           )}
 
