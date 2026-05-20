@@ -282,6 +282,7 @@ footer { background:var(--dark2); color:#aaa; padding:40px 20px; margin-top:40px
 /* Base: hidden elements shown only on mobile */
 .auth-mobile-login-link { display:none; }
 .mobile-auth-btn { display:none; }
+.mobile-auth-bar { display:none; }
 
 /* ── RESPONSIVE ───────────────────────────────────────── */
 @media(max-width:768px) {
@@ -298,6 +299,10 @@ footer { background:var(--dark2); color:#aaa; padding:40px 20px; margin-top:40px
   .search-bar input { font-size:16px; padding:12px 16px; }
   .search-bar button { padding:0 16px; font-size:20px; }
   .mobile-auth-btn { order:3; display:flex; align-items:center; background:var(--dark2); color:#fff; border:none; padding:0 14px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; border-radius:8px; align-self:stretch; }
+
+  .mobile-auth-bar { display:flex; align-items:center; justify-content:space-between; background:linear-gradient(90deg,var(--dark2),#1a1a2e); color:#fff; padding:12px 16px; gap:12px; }
+  .mobile-auth-bar span { font-size:13px; color:#ccc; flex:1; }
+  .mobile-auth-bar button { background:var(--orange); color:#fff; border:none; padding:10px 16px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; }
 
   /* Auth page mobile */
   .auth-page { padding:20px 16px; align-items:flex-start; }

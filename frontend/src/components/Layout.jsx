@@ -138,15 +138,25 @@ export const Navbar = () => {
 };
 
 export const Hero = () => {
-    const { filterCategory, setActivePage } = useAppContext();
+    const { filterCategory, setActivePage, user, logAction } = useAppContext();
     return (
-        <div className="hero">
-            <div className="hero-text">
-                <h1>Türkiye'nin En Büyük<br /><span>Alışveriş Merkezi</span></h1>
-                <p>Milyonlarca ürün, hızlı teslimat, güvenli ödeme</p>
-                <button className="hero-cta" onClick={() => { setActivePage('Shop'); filterCategory('Tümü'); }}>Alışverişe Başla →</button>
+        <>
+            <div className="hero">
+                <div className="hero-text">
+                    <h1>Türkiye'nin En Büyük<br /><span>Alışveriş Merkezi</span></h1>
+                    <p>Milyonlarca ürün, hızlı teslimat, güvenli ödeme</p>
+                    <button className="hero-cta" onClick={() => { setActivePage('Shop'); filterCategory('Tümü'); }}>Alışverişe Başla →</button>
+                </div>
             </div>
-        </div>
+            {!user && (
+                <div className="mobile-auth-bar">
+                    <span>Ücretsiz üye ol, kampanyaları kaçırma!</span>
+                    <button onClick={() => { setActivePage('Auth'); logAction('Mobil Auth Bar Tıklandı'); }}>
+                        Kayıt Ol / Giriş Yap →
+                    </button>
+                </div>
+            )}
+        </>
     );
 };
 
