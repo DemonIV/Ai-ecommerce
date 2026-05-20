@@ -9,7 +9,6 @@ export const ModalsContainer = () => {
             <CheckoutModal />
             <ProductDetailModal />
             <UpsellModal />
-            <HelpModal />
         </>
     );
 };
