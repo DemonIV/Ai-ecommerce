@@ -33,6 +33,7 @@ const CartMenu = () => {
 
         setIsCartOpen(false);
         setIsUpsellOpen(true);
+        logAction('Upsell (Bait) Popup Gösterildi');
     };
 
     return (
@@ -370,13 +371,12 @@ const UpsellModal = () => {
     const [upsellItem, setUpsellItem] = useState(null);
 
     useEffect(() => {
-        if (isUpsellOpen && products && products.length > 0) {
-            // Pick a random product as the fake upsell
+        if (isUpsellOpen && products.length > 0) {
             setUpsellItem(products[Math.floor(Math.random() * products.length)]);
-            logAction('Upsell (Bait) Popup Gösterildi');
+        } else if (!isUpsellOpen) {
+            setUpsellItem(null);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isUpsellOpen]);
+    }, [isUpsellOpen, products]);
 
     if (!isUpsellOpen || !upsellItem) return null;
 
